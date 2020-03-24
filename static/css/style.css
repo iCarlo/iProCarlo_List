@@ -16,3 +16,12 @@ svg {
     width:2em;
     height:2em;
 }
+
+.navbar-icon {
+    color: #343a40;
+}
+
+a:hover {
+  color: #343a40;
+  text-decoration: underline;
+}

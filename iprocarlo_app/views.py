@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 
 def home(request):
-    return render(request, 'base.html')
+    return render(request, 'iprocarlo_app/home.html')
 
 
 def new_search(request):

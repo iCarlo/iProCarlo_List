@@ -1,20 +1,27 @@
+body {
+    background-color: #F2F2E3;
+}
+
 .navbar-brand {
   display: inline-block;
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
   margin-right: 1rem;
-  font-size: 1.50rem;
+  font-size: 1.5rem;
   line-height: inherit;
   white-space: nowrap;
 }
 
-.nav-item {
-  font-size: 1.25rem;
+.navbar-brand:hover, .navbar-icon:hover, .nav-link:hover {
+    color: #595353 !important;
 }
 
-svg {
-    width:2em;
-    height:2em;
+.navbar {
+  background-color: #F7735E;
+}
+
+.nav-item {
+  font-size: 1.2rem;
 }
 
 .navbar-icon {
@@ -24,4 +31,40 @@ svg {
 a:hover {
   color: #343a40;
   text-decoration: underline;
+}
+
+.bi-bi-layers-half {
+    width:1.5em;
+    height:1.5em;
+    fill:currentColor;
+}
+
+.bi-bi-lightning-fill {
+    width:10em;
+    height:10em;
+    fill:#0046A3;
+}
+
+.bi-bi-kanban-fill {
+    width:10em;
+    height:10em;
+    fill:#FF0019;
+}
+
+.bi-bi-toggles {
+    width:10em;
+    height:10em;
+    fill:#F2F200;
+}
+
+.btn {
+  background-color: #F7735E;
+  border-color: #F7735E;
+  color: #000000;
+
+}
+
+.btn:hover {
+  background-color: #fa593e !important;
+  border-color: #fa593e !important;
 }

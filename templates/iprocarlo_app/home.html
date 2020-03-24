@@ -36,34 +36,29 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-
-        </div>
-
-    </div>
-    <form>
-      <div class="form-row">
-        <div class="col-9">
-          <input type="text" class="form-control form-control-lg" placeholder="Search">
-        </div>
-        <div class="col">
-            <select id="inputState" class="form-control form-control-lg">
-              <option selected>Filter</option>
-              <option value="ccc">community</option>
-               <option value="eee">events</option>
-               <option value="sss">for sale</option>
-               <option value="ggg">gigs</option>
-                <option value="hhh">housing</option>
-                <option value="jjj">jobs</option>
-                <option value="rrr">resumes</option>
-                <option value="bbb">services</option>
-            </select>
-        </div>
-        <div class="col">
-          <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </div>
-      </div>
+    <form action="{% url 'iprocarlo_app:new_search' %}" method="post">
+        {% csrf_token %}
+          <div class="form-row">
+            <div class="col-9">
+              <input type="text" class="form-control form-control-lg" placeholder="Search">
+            </div>
+            <div class="col">
+                <select id="inputState" class="form-control form-control-lg">
+                  <option selected>Filter</option>
+                  <option value="ccc">community</option>
+                   <option value="eee">events</option>
+                   <option value="sss">for sale</option>
+                   <option value="ggg">gigs</option>
+                    <option value="hhh">housing</option>
+                    <option value="jjj">jobs</option>
+                    <option value="rrr">resumes</option>
+                    <option value="bbb">services</option>
+                </select>
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </div>
+          </div>
     </form>
 
 

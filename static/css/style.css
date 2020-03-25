@@ -78,6 +78,6 @@ a:hover {
 
 }
 
-.inner:hover img {
+.inner:hover img{
     transform: scale(1.5) !important;
 }

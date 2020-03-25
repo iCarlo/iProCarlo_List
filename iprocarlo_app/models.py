@@ -8,7 +8,7 @@ class Search(models.Model):
     search_date = models.DateTimeField('date published')
 
     def __str__(self):
-        return '{}'.format(self.search_text)
+        return '{}'.format(self.search_item)
 
     class Meta:
         verbose_name_plural = 'Searches'

@@ -7,19 +7,19 @@
             {% csrf_token %}
               <div class="form-row my-5">
                 <div class="col-9">
-                  <input type="text" class="form-control form-control-lg" placeholder="Search">
+                  <input type="text" name="search" class="form-control form-control-lg" placeholder="Search">
                 </div>
                 <div class="col">
-                    <select id="inputState" class="form-control form-control-lg">
-                      <option selected>Filter</option>
-                      <option value="ccc">community</option>
-                       <option value="eee">events</option>
-                       <option value="sss">for sale</option>
-                       <option value="ggg">gigs</option>
-                        <option value="hhh">housing</option>
-                        <option value="jjj">jobs</option>
-                        <option value="rrr">resumes</option>
-                        <option value="bbb">services</option>
+                    <select name="value" class="form-control form-control-lg">
+                      <option value="">Filter</option>
+                      <option value="ccc, community">community</option>
+                       <option value="eee, events">events</option>
+                       <option value="sss, for sale">for sale</option>
+                       <option value="ggg, gigs">gigs</option>
+                        <option value="hhh, housing">housing</option>
+                        <option value="jjj, jobs">jobs</option>
+                        <option value="rrr, resumes">resumes</option>
+                        <option value="bbb, services">services</option>
                     </select>
                 </div>
                 <div class="col">
@@ -27,54 +27,25 @@
                 </div>
               </div>
         </form>
-        <div class="row mx-auto">
-            <div class="col my-2">
-                <div class="card" style="width: 18rem;">
-                    <div class="inner">
-                         <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_weight_other/1800x1200_cat_weight_other.jpg?resize=600px:*" class="card-img-top" alt="...">
+
+        <h2 style="text-align: center">{{ search_text | title }} {{ filter_name }}</h2>
+        <div class="row mx-auto my-4">
+            {% for post in final_postings %}
+                <div class="col my-2">
+                    <div class="card" style="width: 18rem;">
+                        <div class="inner">
+                             <a href="{{ post.2 }}"><img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_weight_other/1800x1200_cat_weight_other.jpg?resize=600px:*" class="card-img-top" alt="..."></a>
+                        </div>
+                      <div class="card-body">
+                        <h5 class="card-title">{{ post.1 }}</h5>
+                        <p class="card-text">{{ post.0 }} {{ post.3 }}</p>
+                        <a href="{{ post.2 }}" class="btn btn-primary">{{ post.4 }} View Now!</a>
+                      </div>
                     </div>
-
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                  </div>
                 </div>
-            </div>
-            <div class="col my-2">
-                <div class="card" style="width: 18rem;">
-                  <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_weight_other/1800x1200_cat_weight_other.jpg?resize=600px:*" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                  </div>
-                </div>
-
-            </div>
-            <div class="col my-2">
-                <div class="card" style="width: 18rem;">
-                  <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_weight_other/1800x1200_cat_weight_other.jpg?resize=600px:*" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                  </div>
-                </div>
-            </div>
-            <div class="col my-2">
-                <div class="card" style="width: 18rem;">
-                  <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_weight_other/1800x1200_cat_weight_other.jpg?resize=600px:*" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                  </div>
-                </div>
-
-            </div>
+            {% endfor %}
         </div>
-        </div>
+
 
 
 

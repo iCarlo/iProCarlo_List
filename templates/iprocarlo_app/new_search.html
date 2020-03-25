@@ -31,16 +31,16 @@
         <h2 style="text-align: center">{{ search_text | title }} {{ filter_name }}</h2>
         <div class="row mx-auto my-4">
             {% for post in final_postings %}
-                <div class="col my-2">
+                <div class="col my-3">
                     <div class="card" style="width: 18rem;">
                         <div class="inner">
                              <a href="{{ post.2 }}"><img src="{{ post.5 }}" class="card-img-top" alt="..."></a>
                         </div>
-                      <div class="card-body">
-                        <h5 class="card-title">{{ post.1 }}</h5>
-                        <p class="card-text">{{ post.0 }} {{ post.3 }}</p>
-                        <a href="{{ post.2 }}" class="btn btn-primary">{{ post.4 }} View Now!</a>
-                      </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.1 }}</h5>
+                            <p class="card-text">{{ post.0 }} {{ post.3 }}</p>
+                        </div>
+                        <a href="{{ post.2 }}" class="card-footer" id="foot_01">{{ post.4 }} View Now!</a>                    
                     </div>
                 </div>
             {% endfor %}

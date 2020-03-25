@@ -69,6 +69,32 @@ a:hover {
   border-color: #fa593e !important;
 }
 
+
+.btn:focus {
+  background-color: #fa593e !important;
+  border-color: #fa593e !important;
+}
+
+#foot_01 {
+  background-color: #F7735E;
+  border-color: #F7735E;
+  color: #000000;
+
+}
+
+#foot_01:hover {
+  background-color: #fa593e !important;
+  border-color: #fa593e !important;
+  color: #000000 !important;
+}
+
+
+#foot_01:focus {
+  background-color: #fa593e !important;
+  border-color: #fa593e !important;
+}
+
+
 .inner {
     overflow: hidden !important;
 }
@@ -81,3 +107,10 @@ a:hover {
 .inner:hover img{
     transform: scale(1.5) !important;
 }
+ .card-img-top {
+     height: 210;
+ }
+
+ .card-body {
+     height: 160;
+ }

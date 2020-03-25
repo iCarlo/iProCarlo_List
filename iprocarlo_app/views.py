@@ -4,6 +4,7 @@ from django.shortcuts import render
 from bs4 import BeautifulSoup
 
 BASE_CRAIGLIST_URL = 'https://manila.craigslist.org/search/{filter}?query={search_text}'
+CRAIGLIST_IMG_URL = 'https://images.craigslist.org/{}_300x300.jpg'
 
 
 def home(request):
@@ -42,7 +43,13 @@ def new_search(request):
         else:
             post_price = "Price N/A"
 
-        final_postings.append((post_title, post_date, post_link, post_place, post_price))
+        if post.find(class_='result-image').get('data-ids'):
+            post_image_id = post.find(class_='result-image').get('data-ids').split(',')[0].split(':')[1]
+            post_image_url = CRAIGLIST_IMG_URL.format(post_image_id)
+        else:
+            post_image_url = 'https://www.craigslist.org/images/peace.jpg'
+
+        final_postings.append((post_title, post_date, post_link, post_place, post_price, post_image_url))
 
     data_scrape = {
         'search_text': search_text,

@@ -4,9 +4,32 @@ from django.shortcuts import render
 from bs4 import BeautifulSoup
 from django.utils import timezone
 from . import models
+from django.contrib.auth.forms import UserCreationForm
+
+from .forms import CreateUserForm
+
 
 BASE_CRAIGLIST_URL = 'https://manila.craigslist.org/search/{filter}?query={search_text}'
 CRAIGLIST_IMG_URL = 'https://images.craigslist.org/{}_300x300.jpg'
+
+
+def login(request):
+    return render(request, 'iprocarlo_app/login.html')
+
+
+def register(request):
+    form = CreateUserForm()
+
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    register_form = {
+        'form': form,
+    }
+
+    return render(request, 'iprocarlo_app/register.html', register_form)
 
 
 def home(request):

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row mt-5 justify-content-center">
+        <div class="col-4">
+            <div class="card" id="register_01">
+              <div class="card-body" id="registerbody_01">
+                <h5 class="card-title mb-4" id="registertitle_01">REGISTER ACCOUNT</h5>
+                <form  action="{% url 'iprocarlo_app:register' %}" method="post">
+                {% csrf_token %}
+                  <div class="form-row justify-content-center">
+                    <div class="form-group col-auto">
+                        <svg class="bi-bi-person-plus-fill" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 100-6 3 3 0 000 6zm7.5-3a.5.5 0 01.5.5v2a.5.5 0 01-.5.5h-2a.5.5 0 010-1H13V5.5a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
+                          <path fill-rule="evenodd" d="M13 7.5a.5.5 0 01.5-.5h2a.5.5 0 010 1H14v1.5a.5.5 0 01-1 0v-2z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="form-group col-auto">
+                        {{form.username}}
+                    </div>
+                  </div>
+                  <div class="form-row justify-content-center">
+                      <div class="form-group col-auto">
+                          <svg class="bi-bi-envelope-fill" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M.05 3.555L8 8.414l7.95-4.859A2 2 0 0014 2H2A2 2 0 00.05 3.555zM16 4.697l-5.875 3.59L16 11.743V4.697zm-.168 8.108L9.157 8.879 8 9.586l-1.157-.707-6.675 3.926A2 2 0 002 14h12a2 2 0 001.832-1.195zM0 11.743l5.875-3.456L0 4.697v7.046z"/>
+                          </svg>
+                      </div>
+                    <div class="form-group col-md-auto">
+                      {{form.email}}
+                    </div>
+                  </div>
+                  <div class="form-row justify-content-center">
+                      <div class="form-group col-auto">
+                          <svg class="bi-bi-lock-fill" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                              <rect width="11" height="9" x="2.5" y="7" rx="2"/>
+                              <path fill-rule="evenodd" d="M4.5 4a3.5 3.5 0 117 0v3h-1V4a2.5 2.5 0 00-5 0v3h-1V4z" clip-rule="evenodd"/>
+                            </svg>
+                      </div>
+                    <div class="form-group col-md-auto">
+                      {{form.password1}}
+                    </div>
+                  </div>
+                  <div class="form-row justify-content-center">
+                      <div class="form-group col-auto">
+                          <svg class="bi-bi-lock-fill" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                              <rect width="11" height="9" x="2.5" y="7" rx="2"/>
+                              <path fill-rule="evenodd" d="M4.5 4a3.5 3.5 0 117 0v3h-1V4a2.5 2.5 0 00-5 0v3h-1V4z" clip-rule="evenodd"/>
+                          </svg>
+                      </div>
+                    <div class="form-group col-md-auto">
+                      {{form.password2}}
+                    </div>
+                  </div>
+                  <div class="form-row justify-content-center">
+                    <div class="form-group col-md-auto">
+                      <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                  </div>
+                </form>
+                <p>Already have an account? <a href="#">Login</a></p>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var form_fields = document.getElementsByTagName('input')
+    form_fields[2].placeholder = 'Username...';
+    form_fields[3].placeholder = 'Email...';
+    form_fields[4].placeholder = 'Enter password...';
+    form_fields[5].placeholder = 'Enter password again...';
+
+    for (var field in form_fields){
+        form_fields[field].className += 'form-control'
+    }
+</script>
+
+
+{% endblock content %}

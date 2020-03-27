@@ -1,0 +1,54 @@
+<h1>LOGIN HERE!!</h1>
+
+
+    <form>
+      <div class="form-row">
+        <div class="form-group col-md-6 align-self-center">
+          <label for="inputEmail4">Email</label>
+          <input type="email" class="form-control" id="inputEmail4" placeholder="email">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Email</label>
+          <input type="email" class="form-control" id="inputEmail4" placeholder="email">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Email</label>
+          <input type="email" class="form-control" id="inputEmail4" placeholder="email">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputCity">City</label>
+          <input type="text" class="form-control" id="inputCity">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+      </div>
+    </form>
+
+
+
+    <form  action="{% url 'iprocarlo_app:register' %}" method="post">
+        {% csrf_token %}
+
+        {{form.username.label}}
+        {{form.username}}
+
+        {{form.email.label}}
+        {{form.email}}
+
+        {{form.password1.label}}
+        {{form.password1}}
+
+        {{form.password2.label}}
+        {{form.password2}}
+
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+    </form>

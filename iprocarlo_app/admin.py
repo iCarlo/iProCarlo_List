@@ -11,7 +11,7 @@ class FilterInLine(admin.TabularInline):
 
 class SearchAdmin(admin.ModelAdmin):
 
-    list_display = ('search_item', 'search_date', 'was_published_recently', 'days_since_searched')
+    list_display = ('search_item', 'search_date', 'was_searched_recently', 'days_since_searched')
     list_filter = ('search_date',)
     search_fields = ('search_item',)
     list_per_page = 3

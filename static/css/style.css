@@ -133,3 +133,9 @@ a:hover {
  #registerbody_01 {
      height: auto;
  }
+
+#container_card {
+    display: flex !important;
+    align-content: center !important;
+    align-items: center !important;
+}

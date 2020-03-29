@@ -5,7 +5,9 @@ from bs4 import BeautifulSoup
 from django.utils import timezone
 from . import models
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 
+from .decorators import unauthenticated_user, allowed_users
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -17,49 +19,47 @@ BASE_CRAIGLIST_URL = 'https://manila.craigslist.org/search/{filter}?query={searc
 CRAIGLIST_IMG_URL = 'https://images.craigslist.org/{}_300x300.jpg'
 
 
+@unauthenticated_user
 def register(request):
-    if request.user.is_authenticated:
-        return redirect('/')
 
-    else:
+    form = CreateUserForm()
 
-        form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user_name = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + user_name)
 
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
-                messages.success(request, 'Account was created for ' + user)
+            set_group = Group.objects.get(name='customers')
 
-                return redirect('/login')
+            user.groups.add(set_group)
 
-        register_form = {
-            'form': form,
-        }
+            return redirect('/login')
 
-        return render(request, 'iprocarlo_app/register.html', register_form)
+    register_form = {
+        'form': form,
+    }
+
+    return render(request, 'iprocarlo_app/register.html', register_form)
 
 
+@unauthenticated_user
 def login_page(request):
-    if request.user.is_authenticated:
-        return redirect('/')
 
-    else:
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
 
-            user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request, 'Username or Password is incorrect!')
 
-            if user is not None:
-                login(request, user)
-                return redirect('/')
-            else:
-                messages.info(request, 'Username or Password is incorrect!')
-
-        return render(request, 'iprocarlo_app/login.html')
+    return render(request, 'iprocarlo_app/login.html')
 
 
 def logout_page(request):
@@ -67,12 +67,18 @@ def logout_page(request):
     return redirect('/login')
 
 
+def user_page(request):
+    return render(request, 'iprocarlo_app/user.html')
+
+
 @login_required(login_url='/login')
+@allowed_users(allowed_roles=['admins', 'customers'])
 def home(request):
     return render(request, 'iprocarlo_app/home.html')
 
 
 @login_required(login_url='/login')
+@allowed_users(allowed_roles=['admins', 'customers'])
 def new_search(request):
     search_text = request.POST.get('search')
     date = timezone.now()

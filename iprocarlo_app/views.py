@@ -1,10 +1,14 @@
 import requests
 from requests.compat import quote_plus
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from bs4 import BeautifulSoup
 from django.utils import timezone
 from . import models
 from django.contrib.auth.forms import UserCreationForm
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 from .forms import CreateUserForm
 
@@ -13,29 +17,62 @@ BASE_CRAIGLIST_URL = 'https://manila.craigslist.org/search/{filter}?query={searc
 CRAIGLIST_IMG_URL = 'https://images.craigslist.org/{}_300x300.jpg'
 
 
-def login(request):
-    return render(request, 'iprocarlo_app/login.html')
-
-
 def register(request):
-    form = CreateUserForm()
+    if request.user.is_authenticated:
+        return redirect('/')
 
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
+    else:
 
-    register_form = {
-        'form': form,
-    }
+        form = CreateUserForm()
 
-    return render(request, 'iprocarlo_app/register.html', register_form)
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')
+                messages.success(request, 'Account was created for ' + user)
+
+                return redirect('/login')
+
+        register_form = {
+            'form': form,
+        }
+
+        return render(request, 'iprocarlo_app/register.html', register_form)
 
 
+def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+
+    else:
+
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+            else:
+                messages.info(request, 'Username or Password is incorrect!')
+
+        return render(request, 'iprocarlo_app/login.html')
+
+
+def logout_page(request):
+    logout(request)
+    return redirect('/login')
+
+
+@login_required(login_url='/login')
 def home(request):
     return render(request, 'iprocarlo_app/home.html')
 
 
+@login_required(login_url='/login')
 def new_search(request):
     search_text = request.POST.get('search')
     date = timezone.now()

@@ -1,6 +1,8 @@
 body {
     background-color: #F2F2E3;
+
 }
+
 
 .navbar-brand {
   display: inline-block;
@@ -12,7 +14,9 @@ body {
   white-space: nowrap;
 }
 
-.navbar-brand:hover, .navbar-icon:hover, .nav-link:hover {
+
+
+#navbartitle02:hover, #navbartitle02:hover, #navbartitle02:hover {
     color: #595353 !important;
 }
 
@@ -134,8 +138,7 @@ a:hover {
      height: auto;
  }
 
-#container_card {
-    display: flex !important;
-    align-content: center !important;
-    align-items: center !important;
+#viewbox01 {
+    display: flex;
+    align-content:  center;
 }

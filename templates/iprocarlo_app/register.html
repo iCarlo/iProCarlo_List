@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_origin.html' %}
 
 {% block content %}
 
@@ -8,8 +8,8 @@
             <div class="card" id="register_01">
               <div class="card-body" id="registerbody_01">
                 <h5 class="card-title mb-4" id="registertitle_01">REGISTER ACCOUNT</h5>
-                <form  action="{% url 'iprocarlo_app:register' %}" method="post">
-                {% csrf_token %}
+                <form  action="" method="post">
+                    {% csrf_token %}
                   <div class="form-row justify-content-center">
                     <div class="form-group col-auto">
                         <svg class="bi-bi-person-plus-fill" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +59,8 @@
                     </div>
                   </div>
                 </form>
-                <p>Already have an account? <a href="#">Login</a></p>
+                {{form.errors}}
+                <p>Already have an account? <a href="{% url 'iprocarlo_app:login' %}">Login</a></p>
               </div>
             </div>
         </div>

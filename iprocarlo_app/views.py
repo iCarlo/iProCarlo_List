@@ -67,6 +67,7 @@ def logout_page(request):
     return redirect('/login')
 
 
+@login_required(login_url='/login')
 def user_page(request):
     return render(request, 'iprocarlo_app/user.html')
 
@@ -74,7 +75,17 @@ def user_page(request):
 @login_required(login_url='/login')
 @allowed_users(allowed_roles=['admins', 'customers'])
 def home(request):
-    return render(request, 'iprocarlo_app/home.html')
+
+    filter = models.Filter.objects.all()
+    filter_names = [names.filter_text for names in filter]
+    filter_codes = [codes.filter_code for codes in filter]
+
+    filter_context = {
+        'filter_names': filter_names,
+        'filter_codes': filter_codes,
+    }
+
+    return render(request, 'iprocarlo_app/home.html', filter_context)
 
 
 @login_required(login_url='/login')
@@ -86,12 +97,17 @@ def new_search(request):
     search_object = models.Search.objects.create(search_item=search_text, search_date=date)
     search_object.save()
 
-    filter = request.POST.get('value')
-    filter_name_len = len(filter) + 1
-    filter_name = request.POST.get('value')[5:filter_name_len]
-    filter_code = request.POST.get('value')[0:3]
+    search_filter = models.Search.objects.all().filter
 
-    models.Filter.objects.create(filter_text=filter_name, searched=search_object)
+    print(search_filter)
+
+    filter = models.Filter.objects.all()
+    filter_names = [names.filter_text for names in filter]
+    filter_codes = [codes.filter_code for codes in filter]
+
+    filter_value = request.POST.get('value').split(',')
+    filter_name = filter_value[1]
+    filter_code = filter_value[0]
 
     final_url = BASE_CRAIGLIST_URL.format(filter=quote_plus(filter_code), search_text=quote_plus(search_text))
 
@@ -134,5 +150,7 @@ def new_search(request):
         'search_text': search_text,
         'filter_name': filter_name,
         'final_postings': final_postings,
+        'filter_names': filter_names,
+        'filter_codes': filter_codes,
     }
     return render(request, 'iprocarlo_app/new_search.html', data_scrape)

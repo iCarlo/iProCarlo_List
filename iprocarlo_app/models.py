@@ -1,11 +1,38 @@
 import datetime
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+
+
+class Customer(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, null=True)
+    phone = models.CharField(max_length=200, null=True)
+    email = models.CharField(max_length=200, null=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+    class Meta:
+        verbose_name_plural = 'Customers'
+
+
+class Filter(models.Model):
+    filter_text = models.CharField(max_length=200, null=True)
+    filter_code = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return '{}'.format(self.filter_text)
+
+    class Meta:
+        verbose_name_plural = 'Filters'
 
 
 class Search(models.Model):
     search_item = models.CharField(max_length=200)
-    search_date = models.DateTimeField('date searched')
+    search_date = models.DateTimeField(auto_now_add=True, null=True)
+    filter = models.ForeignKey(Filter, null=True, on_delete=models.SET_NULL)
 
     def was_searched_recently(self):
         now = timezone.now()
@@ -26,12 +53,18 @@ class Search(models.Model):
         verbose_name_plural = 'Searches'
 
 
-class Filter(models.Model):
-    searched = models.ForeignKey(Search, null=True, on_delete=models.CASCADE)
-    filter_text = models.CharField(max_length=200)
+class History(models.Model):
+    customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)
+    search = models.ForeignKey(Search, null=True, on_delete=models.SET_NULL)
+    filter = models.ForeignKey(Filter, null=True, on_delete=models.SET_NULL)
+    history_date = models.DateTimeField(auto_now_add=True, null=True)
 
-    def __str__(self):
-        return '{}'.format(self.filter_text)
+    def was_history_recently(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.search_date <= now
+    was_history_recently.admin_order_field = 'history_date'
+    was_history_recently.boolean = True
+    was_history_recently.short_description = 'History recently?'
 
     class Meta:
-        verbose_name_plural = 'Filters'
+        verbose_name_plural = 'Histories'

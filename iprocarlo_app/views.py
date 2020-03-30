@@ -76,9 +76,9 @@ def user_page(request):
 @allowed_users(allowed_roles=['admins', 'customers'])
 def home(request):
 
-    filter = models.Filter.objects.all()
-    filter_names = [names.filter_text for names in filter]
-    filter_codes = [codes.filter_code for codes in filter]
+    filter_table = models.Filter.objects.all()
+    filter_names = [names.filter_text for names in filter_table]
+    filter_codes = [codes.filter_code for codes in filter_table]
 
     filter_context = {
         'filter_names': filter_names,
@@ -94,20 +94,24 @@ def new_search(request):
     search_text = request.POST.get('search')
     date = timezone.now()
 
-    search_object = models.Search.objects.create(search_item=search_text, search_date=date)
-    search_object.save()
-
-    search_filter = models.Search.objects.all().filter
-
-    print(search_filter)
-
-    filter = models.Filter.objects.all()
-    filter_names = [names.filter_text for names in filter]
-    filter_codes = [codes.filter_code for codes in filter]
+    filter_table = models.Filter.objects.all()
+    filter_names = [names.filter_text for names in filter_table]
+    filter_codes = [codes.filter_code for codes in filter_table]
 
     filter_value = request.POST.get('value').split(',')
     filter_name = filter_value[1]
     filter_code = filter_value[0]
+
+    try:
+        filter_search = filter_table.get(filter_text=filter_name)
+    except(models.Filter.DoesNotExist):
+        filter_search = None
+
+    else:
+        filter_search = filter_table.get(filter_text=filter_name)
+
+    search_object = models.Search.objects.create(search_item=search_text, search_date=date, filter=filter_search)
+    search_object.save()
 
     final_url = BASE_CRAIGLIST_URL.format(filter=quote_plus(filter_code), search_text=quote_plus(search_text))
 

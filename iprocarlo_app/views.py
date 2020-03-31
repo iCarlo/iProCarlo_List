@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
-from .forms import CreateUserForm
+from .forms import CreateUserForm, CustomerForm
 
 
 BASE_CRAIGLIST_URL = 'https://manila.craigslist.org/search/{filter}?query={search_text}'
@@ -76,14 +76,23 @@ def logout_page(request):
 @allowed_users(allowed_roles=['admins', 'customers'])
 def user_page(request):
 
+    customer = request.user.customer
+    form = CustomerForm(instance=customer)
+
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+
     user_history = request.user.customer.history_set.all().order_by('-history_date')
     total_user_history = user_history.count()
 
-    history_context = {
+    user_context = {
+        'form': form,
         'total_user_history': total_user_history,
         'user_history': user_history,
     }
-    return render(request, 'iprocarlo_app/user.html', history_context)
+    return render(request, 'iprocarlo_app/user.html', user_context)
 
 
 @login_required(login_url='/login')

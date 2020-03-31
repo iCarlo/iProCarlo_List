@@ -61,7 +61,7 @@ class History(models.Model):
 
     def was_history_recently(self):
         now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.search_date <= now
+        return now - datetime.timedelta(days=1) <= self.history_date <= now
     was_history_recently.admin_order_field = 'history_date'
     was_history_recently.boolean = True
     was_history_recently.short_description = 'History recently?'

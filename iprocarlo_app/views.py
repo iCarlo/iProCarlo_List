@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from django.utils import timezone
 from . import models
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 
 from .decorators import unauthenticated_user, allowed_users
 from django.contrib.auth.decorators import login_required
@@ -29,7 +29,12 @@ def register(request):
         if form.is_valid():
             user = form.save()
             user_name = form.cleaned_data.get('username')
+
             messages.success(request, 'Account was created for ' + user_name)
+
+            name_user = User.objects.get(username=user_name)
+
+            models.Customer.objects.create(user=name_user, name=name_user, email=name_user.email)
 
             set_group = Group.objects.get(name='customers')
 
@@ -71,13 +76,14 @@ def logout_page(request):
 @allowed_users(allowed_roles=['admins', 'customers'])
 def user_page(request):
 
-    search_history = request.user.customer.history_set.all()
-    print({'search_history': search_history})
+    user_history = request.user.customer.history_set.all().order_by('-history_date')
+    total_user_history = user_history.count()
 
-    search_context = {
-        'search_history': search_history,
+    history_context = {
+        'total_user_history': total_user_history,
+        'user_history': user_history,
     }
-    return render(request, 'iprocarlo_app/user.html', search_context)
+    return render(request, 'iprocarlo_app/user.html', history_context)
 
 
 @login_required(login_url='/login')
@@ -121,7 +127,11 @@ def new_search(request):
     search_object = models.Search.objects.create(search_item=search_text, search_date=date, filter=filter_search)
     search_object.save()
 
-    
+    history_search = models.Search.objects.get(id=search_object.id)
+    customer_name = models.Customer.objects.get(user=request.user)
+    history_object = models.History.objects.create(customer=customer_name, search=history_search, filter=filter_search)
+    history_object.save()
+
     final_url = BASE_CRAIGLIST_URL.format(filter=quote_plus(filter_code), search_text=quote_plus(search_text))
 
     response = requests.get(final_url)

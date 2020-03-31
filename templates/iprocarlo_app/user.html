@@ -2,8 +2,41 @@
 
 {% block content %}
 
+<style>
+    .thead {
+        color: #ffff;
+        background-color: #873E69;
+    }
+    
+</style>
+
 <div class="container">
-    <h2>USER PROFILE</h2>
+    <table class="table">
+      <thead class="thead">
+        <tr>
+            <th scope="col">Total Search: {{total_user_history}}</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+
+        </tr>
+      </thead>
+      <thead class="thead">
+        <tr>
+          <th scope="col">Search</th>
+          <th scope="col">Filter</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+         {% for user in user_history %}
+        <tr>
+          <td>{{user.search}}</td>
+          <td>{{user.filter}}</td>
+          <td>{{user.history_date}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 </div>
 
 

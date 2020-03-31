@@ -66,5 +66,8 @@ class History(models.Model):
     was_history_recently.boolean = True
     was_history_recently.short_description = 'History recently?'
 
+    def __str__(self):
+        return '{}'.format(self.customer)
+
     class Meta:
         verbose_name_plural = 'Histories'

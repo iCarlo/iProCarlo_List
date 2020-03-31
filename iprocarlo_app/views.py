@@ -68,8 +68,16 @@ def logout_page(request):
 
 
 @login_required(login_url='/login')
+@allowed_users(allowed_roles=['admins', 'customers'])
 def user_page(request):
-    return render(request, 'iprocarlo_app/user.html')
+
+    search_history = request.user.customer.history_set.all()
+    print({'search_history': search_history})
+
+    search_context = {
+        'search_history': search_history,
+    }
+    return render(request, 'iprocarlo_app/user.html', search_context)
 
 
 @login_required(login_url='/login')
@@ -113,6 +121,7 @@ def new_search(request):
     search_object = models.Search.objects.create(search_item=search_text, search_date=date, filter=filter_search)
     search_object.save()
 
+    
     final_url = BASE_CRAIGLIST_URL.format(filter=quote_plus(filter_code), search_text=quote_plus(search_text))
 
     response = requests.get(final_url)

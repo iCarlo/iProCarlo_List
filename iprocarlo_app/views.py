@@ -27,18 +27,10 @@ def register(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            form.save()
             user_name = form.cleaned_data.get('username')
 
             messages.success(request, 'Account was created for ' + user_name)
-
-            name_user = User.objects.get(username=user_name)
-
-            models.Customer.objects.create(user=name_user, name=name_user, email=name_user.email)
-
-            set_group = Group.objects.get(name='customers')
-
-            user.groups.add(set_group)
 
             return redirect('/login')
 

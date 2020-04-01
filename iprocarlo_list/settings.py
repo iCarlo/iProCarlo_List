@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'iprocarlo_app'
+    'iprocarlo_app.apps.IprocarloAppConfig'
 ]
 
 MIDDLEWARE = [

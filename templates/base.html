@@ -37,7 +37,7 @@
                         <span class="user_01">Hello, {{user.username}}</span>
                         <ul class="navbar-nav ml-auto mt-2 mt-lg-1">
                           <li class="nav-item active" id="navbartitle02">
-                            <a class="nav-link" id="navbartitle02" href="{% url 'iprocarlo_app:user' %}">Profile <span class="sr-only"></span></a>
+                            <a class="nav-link" id="navbartitle02" href="{% url 'user' %}">Profile <span class="sr-only"></span></a>
                           </li>
                           {% if request.user.is_staff %}
                           <li class="nav-item active" id="navbartitle02">
@@ -45,7 +45,7 @@
                           </li>
                           {% endif %}
                           <li class="nav-item active" id="navbartitle02">
-                            <a class="nav-link" id="navbartitle02" href="{% url 'iprocarlo_app:logout' %}">Logout <span class="sr-only"></span></a>
+                            <a class="nav-link" id="navbartitle02" href="{% url 'logout' %}">Logout <span class="sr-only"></span></a>
                           </li>
                         </ul>
                 </div>

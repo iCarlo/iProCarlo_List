@@ -43,7 +43,8 @@
                     <p>{{message}}</p>
                 {% endfor %}
 
-                <p>Don't have an account? <a href="{% url 'iprocarlo_app:register' %}">Register</a></p>
+                <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+                <p>Forgot your password? <a href="{% url 'reset_password' %}">Reset now</a></p>
               </div>
             </div>
         </div>

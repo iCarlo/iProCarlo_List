@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="container">
-        <form action="{% url 'iprocarlo_app:new_search' %}" method="post">
+        <form action="{% url 'new_search' %}" method="post">
             {% csrf_token %}
               <div class="form-row my-5">
                 <div class="col-9">
